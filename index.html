@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gamedev Canvas Workshop</title>
+    <style>
+      * { padding: 0; margin: 0; }
+      canvas { background: #eee; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="480" height="320"></canvas>
+
+<script>
+  // JavaScript code goes here
+  // Things to consider:
+  // difficulty mode where ball moves slower/faster or objects bigger/smaller
+  let canvas = document.getElementById("myCanvas");
+  let ctx = canvas.getContext("2d");
+
+  // ball
+  let x = canvas.width/2;  // x coordinate of ball center
+  let y = canvas.height-30; // y coordinate of ball center
+  let dx = 2; // x rate of change
+  let dy = -2; // y rate of change
+  let ballRadius = 10;
+
+  //paddle
+  let paddleHeight = 10;
+  let paddleWidth = 75;
+  let paddleX = (canvas.width - paddleWidth)/2;
+  var rightPressed = false; // right arrow pressed
+  var leftPressed = false; // left arrow pressed
+
+  // drawing just the ball itself
+  function drawBall() {
+    ctx.beginPath();
+    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+    ctx.fillStyle = "#0095DD";
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  // drawing the paddle itself
+  function drawPaddle() {
+    ctx.beginPath();
+    ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+    ctx.fillStyle = "#0095DD";
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  // everything we want to draw (including ball)
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBall();
+    drawPaddle();
+    x += dx;
+    y += dy;
+
+    // update x rate of change if ball hits left or right wall
+    if(x + dx > canvas.width - ballRadius || x + dx < ballRadius) { 
+      dx = -dx;
+    }
+    // update y rate of change if ball hits top or bottom wall
+    if(y + dy > canvas.height - ballRadius || y + dy < ballRadius) { 
+      dy = -dy;
+    }
+
+    // move the padde
+    if(rightPressed) {
+      paddleX += 7;
+      if (paddleX + paddleWidth > canvas.width) {
+        paddleX = canvas.width - paddleWidth;
+      }
+    } else if (leftPressed) {
+      paddleX -= 7;
+      if (paddleX < 0) {
+        paddleX = 0;
+      }
+    }
+  }
+
+  // functions will execute when keys are pressed/released
+  document.addEventListener("keydown", keyDownHandler, false);
+  document.addEventListener("keyup", keyUpHandler, false);
+
+  function keyDownHandler(e) {
+    if (e.key == "Right" || e.key == "ArrowRight") {
+      rightPressed = true;
+    } else if (e.key == "Left" || e.key == "ArrowLeft") {
+      leftPressed = true;
+    }
+  }
+
+  function keyUpHandler(e) {
+    if (e.key == "Right" || e.key == "ArrowRight") {
+      rightPressed = false;
+    } else if (e.key == "Left" || e.key == "ArrowLeft") {
+      leftPressed = false;
+    }
+  }
+
+  setInterval(draw, 10);
+</script>
+
+</body>
+</html>
