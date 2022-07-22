@@ -15,7 +15,10 @@
 <script>
   // JavaScript code goes here
   // Things to consider:
-  // difficulty mode where ball moves slower/faster or objects bigger/smaller
+  // difficulty mode where ball moves slower/faster, objects bigger/smaller, number of lives
+  // randomize where ball starts and initial angle
+  // add sound
+  // change colors
   let canvas = document.getElementById("myCanvas");
   let ctx = canvas.getContext("2d");
 
@@ -49,11 +52,16 @@
       }
   }
 
+  // randomizing color of each row of bricks
+  const colors = ["#0095DD", "#f54245", "#42f54b", "#f542ec", "#f58d42"]; //colors to choose from
+  // next shuffle the array
+  const shuffledColors = colors.sort(() => 0.5 - Math.random()); //brick colors for each row
+
   // score
   let score = 0;
 
   //lives
-  var lives = 3;
+  let lives = 3;
 
   // drawing just the ball itself
   function drawBall() {
@@ -84,7 +92,7 @@
           bricks[c][r].y = brickY;
           ctx.beginPath();
           ctx.rect(brickX, brickY, brickWidth, brickHeight);
-          ctx.fillStyle = "#0095DD";
+          ctx.fillStyle = shuffledColors[r];
           ctx.fill();
           ctx.closePath();
         }
