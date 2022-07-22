@@ -30,10 +30,13 @@ let brickPadding = 10;
 let brickOffsetTop = 30;
 let brickOffsetLeft = 30;
 let bricks = [];
-for(let c=0; c<brickColumnCount; c++) {
-    bricks[c] = [];
-    for(let r=0; r<brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: 1};
+// call this function to create brick array
+function brickArray() {
+    for(let c=0; c<brickColumnCount; c++) {
+        bricks[c] = [];
+        for(let r=0; r<brickRowCount; r++) {
+            bricks[c][r] = { x: 0, y: 0, status: 1};
+        }
     }
 }
 
@@ -160,7 +163,7 @@ if (e.key == "Right" || e.key == "ArrowRight") {
 }
 
 function mouseMoveHandler(e) {
-var relativeX = e.clientX - canvas.offsetLeft;
+let relativeX = e.clientX - canvas.offsetLeft;
 if(relativeX > 0 && relativeX < canvas.width) {
     paddleX = relativeX - paddleWidth/2;
 }
@@ -200,4 +203,41 @@ ctx.fillStyle = "#0095DD";
 ctx.fillText(`Lives: ${lives}`, canvas.width-65, 20);
 }
 
+function difficulty() {
+    // prompt for difficulty level
+    let diffLvl = prompt("Choose a difficulty level. Enter e for easy, m for medium, h for hard, or c for customization options.");
+    diffLvl = diffLvl.toLowerCase();
+    //check for valid input
+    while (diffLvl !== "e" && diffLvl !== "m" && diffLvl !== "h" && diffLvl !== "c"){
+        diffLvl = prompt("Invalid option. Enter e for easy, m for medium, h for hard, or c for customization options.");
+        diffLvl = diffLvl.toLowerCase();
+    }
+
+    switch(diffLvl) {
+        case "e":
+            brickRowCount = 1;
+            dx = 1.5;
+            dy = -1.5;
+            paddleWidth = 100;
+            lives = 5;
+            break;
+        case "m":
+            brickRowCount = 3;
+            dx = 2;
+            dy = -2;
+            paddleWidth = 75;
+            lives = 3;
+            break;
+        case "h":
+            brickRowCount = 5;
+            dx = 3;
+            dy = -3;
+            paddleWidth = 50;
+            lives = 1;
+            break;
+    }
+}
+
+difficulty();
+brickArray()
 draw();
