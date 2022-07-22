@@ -119,8 +119,8 @@ if(y + dy < ballRadius) {
     } else {
         x = canvas.width/2;
         y = canvas.height-30;
-        dx = 2;
-        dy = -2;
+        dx = Math.abs(dx);
+        dy = -Math.abs(dy);
         paddleX = (canvas.width-paddleWidth)/2;
     }
     }
@@ -203,6 +203,7 @@ ctx.fillStyle = "#0095DD";
 ctx.fillText(`Lives: ${lives}`, canvas.width-65, 20);
 }
 
+// allows user to select difficulty level or customize each difficulty feature
 function difficulty() {
     // prompt for difficulty level
     let diffLvl = prompt("Choose a difficulty level. Enter e for easy, m for medium, h for hard, or c for customization options.");
@@ -213,6 +214,7 @@ function difficulty() {
         diffLvl = diffLvl.toLowerCase();
     }
 
+    // what to do with each input option
     switch(diffLvl) {
         case "e":
             brickRowCount = 1;
@@ -235,7 +237,34 @@ function difficulty() {
             paddleWidth = 50;
             lives = 1;
             break;
+        case "c":
+            custDiff();
     }
+}
+
+// customizing each difficulty feature
+function custDiff() {
+    custBrickRowCount();
+    custBallSpeed();
+}
+
+// customize number of rows of bricks
+function custBrickRowCount() {
+    let custRow = Number(prompt("How many rows of bricks do you want? Choose a number 1-5."));
+    while (custRow !== 1 && custRow !== 2 && custRow !== 3 && custRow !== 4 && custRow !== 5){
+        custRow = prompt("Invalid option. How many rows of bricks do you want? Choose a number 1-5.");
+    }
+    brickRowCount = custRow;
+}
+
+// customize speed of ball
+function custBallSpeed() {
+    let custSpeed = Number(prompt("How fast do you want the ball to go? Choose a number 1-5, including decimal values."));
+    while (custSpeed < 1 || custSpeed > 5 && !(typeof custSpeed === "number")){
+        custRow = prompt("Invalid option. How fast do you want the ball to go? Choose a number 1-5, including decimal values.");
+    }
+    dx = custSpeed;
+    dy = -custSpeed;
 }
 
 difficulty();
