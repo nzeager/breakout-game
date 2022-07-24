@@ -90,7 +90,6 @@ for(let c=0; c<brickColumnCount; c++) {
 
 // everything we want to draw (including ball)
 function draw() {
-console.log("got here")
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 drawBall();
 drawPaddle();
@@ -201,7 +200,7 @@ ctx.fillText("Score: "+score, 8, 20);
 function drawLives() {
 ctx.font = "16px Arial";
 ctx.fillStyle = "#0095DD";
-ctx.fillText(`Lives: ${lives}`, canvas.width-65, 20);
+ctx.fillText(`Lives: ${lives}`, canvas.width-80, 20);
 }
 
 // allows user to select difficulty level or customize each difficulty feature
@@ -291,13 +290,3 @@ function custNumLives() {
 difficulty();
 brickArray();
 draw();
-
-// function main(resetVal = true) {
-//     if (resetVal) {
-//         difficulty();
-//     }
-//     brickArray();
-//     draw();
-// }
-
-// main();
