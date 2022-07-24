@@ -90,6 +90,7 @@ for(let c=0; c<brickColumnCount; c++) {
 
 // everything we want to draw (including ball)
 function draw() {
+console.log("got here")
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 drawBall();
 drawPaddle();
@@ -246,13 +247,15 @@ function difficulty() {
 function custDiff() {
     custBrickRowCount();
     custBallSpeed();
+    custPaddleSize()
+    custNumLives()
 }
 
 // customize number of rows of bricks
 function custBrickRowCount() {
     let custRow = Number(prompt("How many rows of bricks do you want? Choose a number 1-5."));
     while (custRow !== 1 && custRow !== 2 && custRow !== 3 && custRow !== 4 && custRow !== 5){
-        custRow = prompt("Invalid option. How many rows of bricks do you want? Choose a number 1-5.");
+        custRow = Number(prompt("Invalid option. How many rows of bricks do you want? Choose a number 1-5."));
     }
     brickRowCount = custRow;
 }
@@ -260,13 +263,41 @@ function custBrickRowCount() {
 // customize speed of ball
 function custBallSpeed() {
     let custSpeed = Number(prompt("How fast do you want the ball to go? Choose a number 1-5, including decimal values."));
-    while (custSpeed < 1 || custSpeed > 5 && !(typeof custSpeed === "number")){
-        custRow = prompt("Invalid option. How fast do you want the ball to go? Choose a number 1-5, including decimal values.");
+    while (!(custSpeed >= 1 && custSpeed <= 5)){
+        custSpeed = Number(prompt("Invalid option. How fast do you want the ball to go? Choose a number 1-5, including decimal values."));
     }
     dx = custSpeed;
     dy = -custSpeed;
 }
 
+// customize size of paddle
+function custPaddleSize(){
+    let custSize = Number(prompt("How big do you want the paddle to be? Choose a number 50-100."));
+    while (!(custSize >= 50 && custSize <= 100)){
+        custSize = Number(prompt("Invalid option. How big do you want the paddle to be? Choose a number 50-100."));
+    }
+    paddleWidth = custSize;
+}
+
+// customize number of lives
+function custNumLives() {
+    let custLives = Number(prompt("How many lives do you want to have? Choose a number 1-100."));
+    while (!(custLives >= 1 && custLives <= 100 && Number.isInteger(custLives))){
+        custLives = Number(prompt("Invalid option. How many lives do you want to have? Choose a number 1-100."));
+    }
+    lives = custLives;
+}
+
 difficulty();
-brickArray()
+brickArray();
 draw();
+
+// function main(resetVal = true) {
+//     if (resetVal) {
+//         difficulty();
+//     }
+//     brickArray();
+//     draw();
+// }
+
+// main();
